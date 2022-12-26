@@ -1,11 +1,23 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
+import 'package:ready_artisans/Pages/Home/HomePage.dart';
 import 'package:ready_artisans/Styles/AppColors.dart';
-import 'Pages/WelcomePage.dart';
+import 'Pages/Welcome/WelcomePage.dart';
+import 'Providers/NavigationProvider.dart';
+import 'firebase_options.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  runApp(MultiProvider(providers: [
+    ChangeNotifierProvider(create: (_) => NavigationProvider()),
+  ], child: const MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -15,6 +27,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Ready Artisans',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData.dark().copyWith(
         scaffoldBackgroundColor: Colors.white,
         indicatorColor: Colors.black87,
@@ -32,7 +45,9 @@ class MyApp extends StatelessWidget {
         canvasColor: primaryColor,
       ),
       builder: FlutterSmartDialog.init(),
-      home: const WelcomePage(),
+      home: FirebaseAuth.instance.currentUser != null
+          ? const HomePage()
+          : const WelcomePage(),
     );
   }
 }

@@ -21,6 +21,8 @@ dependencies:
   flutter_markdown: ^0.6.13
   flutter_native_splash: ^2.2.16
   flutter_smart_dialog: ^4.7.3
+  provider: ^6.0.5
+  image_picker: ^0.8.6
 
 
 dev_dependencies:
@@ -33,8 +35,8 @@ dev_dependencies:
 
 flutter_native_splash:
   color: "#ffffff"
-  image: assets/images/logo_large.png
-  andriod: true
+  background_image: assets/images/logo_large.png
+  android: true
   ios: true
 #flutter pub run flutter_native_splash:create
 
