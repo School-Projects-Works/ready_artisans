@@ -6,5 +6,6 @@ class Assets {
   static const String imagesLogoLargeT = 'assets/images/logo_large_t.png';
   static const String imagesLogoSmall = 'assets/images/logo_small.png';
   static const String imagesLogoSmallT = 'assets/images/logo_small_t.png';
+  static const String imagesSplash = 'assets/images/splash.png';
 
 }

@@ -7,6 +7,7 @@ import 'package:provider/provider.dart';
 import 'package:ready_artisans/Pages/Home/HomePage.dart';
 import 'package:ready_artisans/Styles/AppColors.dart';
 import 'Pages/Welcome/WelcomePage.dart';
+import 'Providers/LocationProvider.dart';
 import 'Providers/NavigationProvider.dart';
 import 'firebase_options.dart';
 
@@ -15,13 +16,28 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   runApp(MultiProvider(providers: [
     ChangeNotifierProvider(create: (_) => NavigationProvider()),
+    ChangeNotifierProvider(create: (_) => LocationService()),
   ], child: const MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<LocationService>(context, listen: false).getCurrentPosition();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

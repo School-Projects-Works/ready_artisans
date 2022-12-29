@@ -1,13 +1,17 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:ready_artisans/Components/SmartDialog.dart';
 import 'package:ready_artisans/Components/TextInputs.dart';
 import 'package:ready_artisans/Providers/NavigationProvider.dart';
 import 'package:ready_artisans/Styles/AppColors.dart';
 
 import '../../Constants/strings.dart';
+import '../../Database/FirebaseApi.dart';
 import '../../generated/assets.dart';
+import '../Home/HomePage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -21,16 +25,19 @@ class _LoginPageState extends State<LoginPage> {
   String? email;
   String? password;
   bool _obscureText = true;
+
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var size = MediaQuery
+        .of(context)
+        .size;
     return SizedBox(
       width: size.width,
       height: size.height,
       child: Center(
         child: Card(
           elevation: 5,
-          margin: const EdgeInsets.all(20),
+          margin: const EdgeInsets.all(10),
           color: Colors.white,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
@@ -104,19 +111,19 @@ class _LoginPageState extends State<LoginPage> {
                       alignment: Alignment.centerRight,
                       child: RichText(
                           text: TextSpan(
-                        text: 'Forgot Password?',
-                        style: GoogleFonts.nunito(
-                          color: secondaryColor,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Provider.of<NavigationProvider>(context,
+                            text: 'Forgot Password?',
+                            style: GoogleFonts.nunito(
+                              color: secondaryColor,
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                Provider.of<NavigationProvider>(context,
                                     listen: false)
-                                .setWelcomeIndex(2);
-                          },
-                      )),
+                                    .setWelcomeIndex(2);
+                              },
+                          )),
                     ),
                     const SizedBox(height: 20),
                     ElevatedButton(
@@ -141,29 +148,29 @@ class _LoginPageState extends State<LoginPage> {
                     const SizedBox(height: 15),
                     RichText(
                         text: TextSpan(
-                      text: 'Don\'t have an account?',
-                      style: GoogleFonts.nunito(
-                        color: Colors.black,
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
-                      children: [
-                        TextSpan(
-                          text: ' Sign Up',
+                          text: 'Don\'t have an account?',
                           style: GoogleFonts.nunito(
-                            color: secondaryColor,
+                            color: Colors.black,
                             fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w600,
                           ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () {
-                              Provider.of<NavigationProvider>(context,
+                          children: [
+                            TextSpan(
+                              text: ' Sign Up',
+                              style: GoogleFonts.nunito(
+                                color: secondaryColor,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                              recognizer: TapGestureRecognizer()
+                                ..onTap = () {
+                                  Provider.of<NavigationProvider>(context,
                                       listen: false)
-                                  .setWelcomeIndex(1);
-                            },
-                        ),
-                      ],
-                    )),
+                                      .setWelcomeIndex(1);
+                                },
+                            ),
+                          ],
+                        )),
                   ],
                 ),
               ),
@@ -174,5 +181,31 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  login() {}
+  login() async {
+    if (_formKey.currentState!.validate()) {
+      _formKey.currentState!.save();
+      CustomDialog.showLoading(message: 'Logging in...Please wait');
+      User? user = await FirebaseApi.signIn(email!, password!);
+      if (user != null) {
+        if (user.emailVerified) {
+          CustomDialog.dismiss();
+          if (mounted) {
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(builder: (context) => const HomePage()));
+          }
+        } else {
+          CustomDialog.dismiss();
+          CustomDialog.showInfo(
+              message: 'Email is not verified.Please verify your email',
+              buttonText: 'Resend Verification',
+              onPressed: () async {
+                user.sendEmailVerification();
+                CustomDialog.dismiss();
+                CustomDialog.showSuccess(message: 'Verification email sent');
+              });
+        }
+      }
+    }
+  }
 }
