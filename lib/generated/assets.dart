@@ -2,10 +2,12 @@
 class Assets {
   Assets._();
 
+  static const String imagesLogoHT = 'assets/images/logo_h_t.png';
   static const String imagesLogoLarge = 'assets/images/logo_large.png';
   static const String imagesLogoLargeT = 'assets/images/logo_large_t.png';
   static const String imagesLogoSmall = 'assets/images/logo_small.png';
   static const String imagesLogoSmallT = 'assets/images/logo_small_t.png';
+  static const String imagesPlaceholder = 'assets/images/placeholder.png';
   static const String imagesSplash = 'assets/images/splash.png';
 
 }

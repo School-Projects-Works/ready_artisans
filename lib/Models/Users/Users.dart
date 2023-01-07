@@ -22,6 +22,7 @@ class Users {
   String? status;
   @HiveField(8)
   int? createdAt;
+  @HiveField(9)
   String? address;
 
   Users({

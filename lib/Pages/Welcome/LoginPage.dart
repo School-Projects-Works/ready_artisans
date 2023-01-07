@@ -5,11 +5,14 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:ready_artisans/Components/SmartDialog.dart';
 import 'package:ready_artisans/Components/TextInputs.dart';
+import 'package:ready_artisans/Database/LocalDatabase.dart';
 import 'package:ready_artisans/Providers/NavigationProvider.dart';
+import 'package:ready_artisans/Providers/UserProvider.dart';
 import 'package:ready_artisans/Styles/AppColors.dart';
 
 import '../../Constants/strings.dart';
 import '../../Database/FirebaseApi.dart';
+import '../../Models/Users/Users.dart';
 import '../../generated/assets.dart';
 import '../Home/HomePage.dart';
 
@@ -188,6 +191,14 @@ class _LoginPageState extends State<LoginPage> {
       User? user = await FirebaseApi.signIn(email!, password!);
       if (user != null) {
         if (user.emailVerified) {
+         Users? users=await  FirebaseApi.getUser(user.uid);
+          if (users != null) {
+            HiveApi().setUser(users);
+            if(mounted){
+              Provider.of<UserProvider>(context, listen: false)
+                  .setUser(users);
+            }
+          }
           CustomDialog.dismiss();
           if (mounted) {
             Navigator.pushReplacement(

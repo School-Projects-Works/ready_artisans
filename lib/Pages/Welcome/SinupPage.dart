@@ -72,106 +72,301 @@ class _SignUpPageState extends State<SignUpPage> {
   final _secondForm = GlobalKey<FormState>();
   final _thirdForm = GlobalKey<FormState>();
   Widget firstPart() {
-    return Form(
-        key: _firstForm,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
-              Text('REGISTER',
-                  style: GoogleFonts.alfaSlabOne(
-                      decoration: TextDecoration.underline,
-                      fontSize: 30,
-                      color: secondaryColor)),
-              const SizedBox(height: 15),
-              CustomTextFields(
-                label: 'Email',
-                prefixIcon: Icons.email,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value!.isEmpty || !emailRegEx.hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  setState(() {
-                    email = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              CustomTextFields(
-                label: 'Password',
-                prefixIcon: Icons.lock,
-                obscureText: _obscureText,
-                suffixIcon: IconButton(
-                  onPressed: () {
+    return Container(
+      color: Colors.white,
+      child: Form(
+          key: _firstForm,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
+                Text('REGISTER',
+                    style: GoogleFonts.alfaSlabOne(
+                        decoration: TextDecoration.underline,
+                        fontSize: 30,
+                        color: secondaryColor)),
+                const SizedBox(height: 15),
+                CustomTextFields(
+                  label: 'Email',
+                  prefixIcon: Icons.email,
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value!.isEmpty || !emailRegEx.hasMatch(value)) {
+                      return 'Please enter a valid email';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
                     setState(() {
-                      _obscureText = !_obscureText;
+                      email = value;
                     });
                   },
-                  icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: primaryColor),
                 ),
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  setState(() {
-                    password = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              CustomTextFields(
-                label: 'Confirm Password',
-                prefixIcon: Icons.lock,
-                obscureText: _obscureText,
-                suffixIcon: IconButton(
-                  onPressed: () {
+                const SizedBox(height: 20),
+                CustomTextFields(
+                  label: 'Password',
+                  prefixIcon: Icons.lock,
+                  obscureText: _obscureText,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                        color: primaryColor),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty || value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
                     setState(() {
-                      _obscureText = !_obscureText;
+                      password = value;
                     });
                   },
-                  icon: Icon(
-                      _obscureText ? Icons.visibility : Icons.visibility_off,
-                      color: primaryColor),
                 ),
-                validator: (value) {
-                  if (value!.isEmpty || value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-                onSaved: (value) {
-                  setState(() {
-                    confirmPassword = value;
-                  });
-                },
-              ),
-              const SizedBox(height: 20),
-              Align(
-                alignment: Alignment.centerRight,
-                child: TextButton.icon(
-                  onPressed: () {
-                    if (_firstForm.currentState!.validate()) {
-                      _firstForm.currentState!.save();
-                      if (password != confirmPassword) {
-                        CustomDialog.showError(
-                            message: 'Passwords do not match');
-                      } else {
-                        setState(() {
-                          _currentIndex = 1;
-                        });
+                const SizedBox(height: 20),
+                CustomTextFields(
+                  label: 'Confirm Password',
+                  prefixIcon: Icons.lock,
+                  obscureText: _obscureText,
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _obscureText = !_obscureText;
+                      });
+                    },
+                    icon: Icon(
+                        _obscureText ? Icons.visibility : Icons.visibility_off,
+                        color: primaryColor),
+                  ),
+                  validator: (value) {
+                    if (value!.isEmpty || value.length < 6) {
+                      return 'Password must be at least 6 characters';
+                    }
+                    return null;
+                  },
+                  onSaved: (value) {
+                    setState(() {
+                      confirmPassword = value;
+                    });
+                  },
+                ),
+                const SizedBox(height: 20),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton.icon(
+                    onPressed: () {
+                      if (_firstForm.currentState!.validate()) {
+                        _firstForm.currentState!.save();
+                        if (password != confirmPassword) {
+                          CustomDialog.showError(
+                              message: 'Passwords do not match');
+                        } else {
+                          setState(() {
+                            _currentIndex = 1;
+                          });
+                        }
                       }
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.arrowRight,
+                      color: secondaryColor,
+                    ),
+                    label: Text('Continue',
+                        style: GoogleFonts.nunito(
+                          color: secondaryColor,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                        )),
+                  ),
+                ),
+                const SizedBox(height: 20),
+                RichText(
+                    text: TextSpan(
+                  text: 'Already have an account?',
+                  style: GoogleFonts.nunito(
+                    color: Colors.black,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                  children: [
+                    TextSpan(
+                      text: ' Login',
+                      style: GoogleFonts.nunito(
+                        color: secondaryColor,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Provider.of<NavigationProvider>(context, listen: false)
+                              .setWelcomeIndex(0);
+                        },
+                    ),
+                  ],
+                )),
+              ],
+            ),
+          )),
+    );
+  }
+
+  Widget secondPart() {
+    return Container(
+      color: Colors.white,
+      child: Form(
+        key: _secondForm,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
+            Text('REGISTER',
+                style: GoogleFonts.alfaSlabOne(
+                    decoration: TextDecoration.underline,
+                    fontSize: 30,
+                    color: secondaryColor)),
+            const SizedBox(height: 15),
+            GestureDetector(
+              onTap: _pickImage,
+              child: CircleAvatar(
+                radius: 50,
+                backgroundColor: primaryColor.withOpacity(.4),
+                child: ClipOval(
+                  child: SizedBox(
+                    width: 100,
+                    height: 100,
+                    child: image != null
+                        ? Image.file(
+                            image!,
+                            fit: BoxFit.fill,
+                          )
+                        : Center(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const Icon(
+                                    Icons.camera_alt,
+                                    color: Colors.black,
+                                    size: 20,
+                                  ),
+                                  Text(
+                                    'Select Profile Image',
+                                    textAlign: TextAlign.center,
+                                    style: GoogleFonts.nunito(
+                                        color: Colors.black,
+                                        fontSize: 13,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 15),
+            CustomTextFields(
+              label: 'GH Card (eg. GHA-1234567-8)',
+              prefixIcon: Icons.credit_card,
+              keyboardType: TextInputType.text,
+              isDigitOnly: false,
+              isCapitalized: true,
+              validator: (value) {
+                if (value!.length < 15) {
+                  return 'Please enter your Ghana Card Number';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                setState(() {
+                  idCard = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomTextFields(
+              label: 'FullName',
+              prefixIcon: Icons.person,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                setState(() {
+                  name = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomDropDown(
+                label: 'Select gender',
+                value: gender,
+                onChanged: (value) {
+                  setState(() {
+                    gender = value;
+                  });
+                },
+                validator: (value) {
+                  if (value == null) {
+                    return 'Please Select your Gender';
+                  } else {
+                    return null;
+                  }
+                },
+                items: [
+                  DropdownMenuItem(
+                      value: 'Male',
+                      child: Text(
+                        'Male',
+                        style: GoogleFonts.nunito(color: Colors.black),
+                      )),
+                  DropdownMenuItem(
+                      value: 'Female',
+                      child: Text('Female',
+                          style: GoogleFonts.nunito(color: Colors.black))),
+                ],
+                color: Colors.white),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      _currentIndex = 0;
+                    });
+                  },
+                  icon: const Icon(
+                    FontAwesomeIcons.arrowLeft,
+                    color: secondaryColor,
+                  ),
+                  label: Text('Back',
+                      style: GoogleFonts.nunito(
+                        color: secondaryColor,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      )),
+                ),
+                TextButton.icon(
+                  onPressed: () {
+                    if (_secondForm.currentState!.validate()) {
+                      _secondForm.currentState!.save();
+
+                      setState(() {
+                        _currentIndex = 2;
+                      });
                     }
                   },
                   icon: const Icon(
@@ -185,281 +380,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         fontWeight: FontWeight.bold,
                       )),
                 ),
-              ),
-              const SizedBox(height: 20),
-              RichText(
-                  text: TextSpan(
-                text: 'Already have an account?',
-                style: GoogleFonts.nunito(
-                  color: Colors.black,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w600,
-                ),
-                children: [
-                  TextSpan(
-                    text: ' Login',
-                    style: GoogleFonts.nunito(
-                      color: secondaryColor,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        Provider.of<NavigationProvider>(context, listen: false)
-                            .setWelcomeIndex(0);
-                      },
-                  ),
-                ],
-              )),
-            ],
-          ),
-        ));
-  }
-
-  Widget secondPart() {
-    return Form(
-      key: _secondForm,
-      child: SingleChildScrollView(
-        child: Column(children: [
-          Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
-          Text('REGISTER',
-              style: GoogleFonts.alfaSlabOne(
-                  decoration: TextDecoration.underline,
-                  fontSize: 30,
-                  color: secondaryColor)),
-          const SizedBox(height: 15),
-          GestureDetector(
-            onTap: _pickImage,
-            child: CircleAvatar(
-              radius: 50,
-              backgroundColor: primaryColor.withOpacity(.4),
-              child: ClipOval(
-                child: SizedBox(
-                  width: 100,
-                  height: 100,
-                  child: image != null
-                      ? Image.file(
-                          image!,
-                          fit: BoxFit.fill,
-                        )
-                      : Center(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                const Icon(
-                                  Icons.camera_alt,
-                                  color: Colors.black,
-                                  size: 20,
-                                ),
-                                Text(
-                                  'Select Profile Image',
-                                  textAlign: TextAlign.center,
-                                  style: GoogleFonts.nunito(
-                                      color: Colors.black,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.bold),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 15),
-          CustomTextFields(
-            label: 'GH Card (eg. GHA-1234567-8)',
-            prefixIcon: Icons.credit_card,
-            keyboardType: TextInputType.number,
-            isDigitOnly: false,
-            isCapitalized: true,
-            validator: (value) {
-              if (value!.length < 15) {
-                return 'Please enter your Ghana Card Number';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              setState(() {
-                idCard = value;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          CustomTextFields(
-            label: 'FullName',
-            prefixIcon: Icons.person,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your name';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              setState(() {
-                name = value;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          CustomDropDown(
-              label: 'Select gender',
-              value: gender,
-              onChanged: (value) {
-                setState(() {
-                  gender = value;
-                });
-              },
-              validator: (value) {
-                if (value == null) {
-                  return 'Please Select your Gender';
-                } else {
-                  return null;
-                }
-              },
-              items: [
-                DropdownMenuItem(
-                    value: 'Male',
-                    child: Text(
-                      'Male',
-                      style: GoogleFonts.nunito(color: Colors.black),
-                    )),
-                DropdownMenuItem(
-                    value: 'Female',
-                    child: Text('Female',
-                        style: GoogleFonts.nunito(color: Colors.black))),
               ],
-              color: Colors.white),
-          const SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              TextButton.icon(
-                onPressed: () {
-                  setState(() {
-                    _currentIndex = 0;
-                  });
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.arrowLeft,
-                  color: secondaryColor,
-                ),
-                label: Text('Back',
-                    style: GoogleFonts.nunito(
-                      color: secondaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-              TextButton.icon(
-                onPressed: () {
-                  if (_secondForm.currentState!.validate()) {
-                    _secondForm.currentState!.save();
-
-                    setState(() {
-                      _currentIndex = 2;
-                    });
-                  }
-                },
-                icon: const Icon(
-                  FontAwesomeIcons.arrowRight,
-                  color: secondaryColor,
-                ),
-                label: Text('Continue',
-                    style: GoogleFonts.nunito(
-                      color: secondaryColor,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    )),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          RichText(
-              text: TextSpan(
-            text: 'Already have an account?',
-            style: GoogleFonts.nunito(
-              color: Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
             ),
-            children: [
-              TextSpan(
-                text: ' Login',
-                style: GoogleFonts.nunito(
-                  color: secondaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Provider.of<NavigationProvider>(context, listen: false)
-                        .setWelcomeIndex(0);
-                  },
-              ),
-            ],
-          )),
-        ]),
-      ),
-    );
-  }
-
-  Widget thirdPart() {
-    return Form(
-      key: _thirdForm,
-      child: SingleChildScrollView(
-        child: Column(children: [
-          Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
-          Text('REGISTER',
-              style: GoogleFonts.alfaSlabOne(
-                  decoration: TextDecoration.underline,
-                  fontSize: 30,
-                  color: secondaryColor)),
-          const SizedBox(height: 15),
-          CustomTextFields(
-            label: 'Phone',
-            prefixIcon: Icons.phone,
-            keyboardType: TextInputType.phone,
-            isDigitOnly: true,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your phone number';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              setState(() {
-                phone = value;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          CustomTextFields(
-            label: 'Address',
-            maxLines: 3,
-            prefixIcon: Icons.location_on,
-            validator: (value) {
-              if (value!.isEmpty) {
-                return 'Please enter your address';
-              }
-              return null;
-            },
-            onSaved: (value) {
-              setState(() {
-                address = value;
-              });
-            },
-          ),
-          const SizedBox(height: 20),
-          CheckboxListTile(
-            value: policy,
-            onChanged: (val) {},
-            title: RichText(
+            const SizedBox(height: 20),
+            RichText(
                 text: TextSpan(
-              text: 'I have read and agree to the ',
+              text: 'Already have an account?',
               style: GoogleFonts.nunito(
                 color: Colors.black,
                 fontSize: 16,
@@ -467,7 +393,7 @@ class _SignUpPageState extends State<SignUpPage> {
               ),
               children: [
                 TextSpan(
-                  text: 'Terms and Conditions',
+                  text: ' Login',
                   style: GoogleFonts.nunito(
                     color: secondaryColor,
                     fontSize: 16,
@@ -475,73 +401,164 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                   recognizer: TapGestureRecognizer()
                     ..onTap = () {
-                      //todo open terms and conditions
+                      Provider.of<NavigationProvider>(context, listen: false)
+                          .setWelcomeIndex(0);
                     },
                 ),
               ],
             )),
-            controlAffinity: ListTileControlAffinity.leading,
-            activeColor: secondaryColor,
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              IconButton(
-                  onPressed: () {
-                    setState(() {
-                      _currentIndex = 1;
-                    });
-                  },
-                  icon: const Icon(
-                    FontAwesomeIcons.arrowLeft,
-                    color: Colors.black,
-                  )),
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: () => register(),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: secondaryColor,
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 50, vertical: 10),
-                    textStyle: GoogleFonts.nunito(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
+          ]),
+        ),
+      ),
+    );
+  }
+
+  Widget thirdPart() {
+    return Container(
+      color:  Colors.white,
+      child: Form(
+        key: _thirdForm,
+        child: SingleChildScrollView(
+          child: Column(children: [
+            Image.asset(Assets.imagesLogoSmallT, width: 100, height: 100),
+            Text('REGISTER',
+                style: GoogleFonts.alfaSlabOne(
+                    decoration: TextDecoration.underline,
+                    fontSize: 30,
+                    color: secondaryColor)),
+            const SizedBox(height: 15),
+            CustomTextFields(
+              label: 'Phone',
+              prefixIcon: Icons.phone,
+              keyboardType: TextInputType.phone,
+              isDigitOnly: true,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your phone number';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                setState(() {
+                  phone = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CustomTextFields(
+              label: 'Address',
+              maxLines: 3,
+              prefixIcon: Icons.location_on,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your address';
+                }
+                return null;
+              },
+              onSaved: (value) {
+                setState(() {
+                  address = value;
+                });
+              },
+            ),
+            const SizedBox(height: 20),
+            CheckboxListTile(
+              value: policy,
+              checkColor: Colors.white,
+              shape: RoundedRectangleBorder(
+                side: const BorderSide(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10)),
+              onChanged: (val) {
+                setState(() {
+                  policy = val!;
+                });
+              },
+              title: RichText(
+                  text: TextSpan(
+                text: 'I have read and agree to the ',
+                style: GoogleFonts.nunito(
+                  color: Colors.black,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+                children: [
+                  TextSpan(
+                    text: 'Terms and Conditions',
+                    style: GoogleFonts.nunito(
+                      color: secondaryColor,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    recognizer: TapGestureRecognizer()
+                      ..onTap = () {
+                        //todo open terms and conditions
+                      },
+                  ),
+                ],
+              )),
+              controlAffinity: ListTileControlAffinity.leading,
+              activeColor: secondaryColor,
+            ),
+            const SizedBox(height: 20),
+            Row(
+              children: [
+                IconButton(
+                    onPressed: () {
+                      setState(() {
+                        _currentIndex = 1;
+                      });
+                    },
+                    icon: const Icon(
+                      FontAwesomeIcons.arrowLeft,
+                      color: Colors.black,
+                    )),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () => register(),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: secondaryColor,
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 10),
+                      textStyle: GoogleFonts.nunito(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                    child: Text(
+                      'Register',
+                      style: GoogleFonts.nunito(color: Colors.white),
                     ),
                   ),
-                  child: Text(
-                    'Register',
-                    style: GoogleFonts.nunito(color: Colors.white),
-                  ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          RichText(
-              text: TextSpan(
-            text: 'Already have an account?',
-            style: GoogleFonts.nunito(
-              color: Colors.black,
-              fontSize: 16,
-              fontWeight: FontWeight.w600,
+              ],
             ),
-            children: [
-              TextSpan(
-                text: ' Login',
-                style: GoogleFonts.nunito(
-                  color: secondaryColor,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Provider.of<NavigationProvider>(context, listen: false)
-                        .setWelcomeIndex(0);
-                  },
+            const SizedBox(height: 20),
+            RichText(
+                text: TextSpan(
+              text: 'Already have an account?',
+              style: GoogleFonts.nunito(
+                color: Colors.black,
+                fontSize: 16,
+                fontWeight: FontWeight.w600,
               ),
-            ],
-          )),
-        ]),
+              children: [
+                TextSpan(
+                  text: ' Login',
+                  style: GoogleFonts.nunito(
+                    color: secondaryColor,
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  recognizer: TapGestureRecognizer()
+                    ..onTap = () {
+                      Provider.of<NavigationProvider>(context, listen: false)
+                          .setWelcomeIndex(0);
+                    },
+                ),
+              ],
+            )),
+          ]),
+        ),
       ),
     );
   }
@@ -606,52 +623,58 @@ class _SignUpPageState extends State<SignUpPage> {
   register() async {
     if (_thirdForm.currentState!.validate()) {
       _thirdForm.currentState!.save();
-      CustomDialog.showLoading(message: 'Registering... Please wait');
-      if (!await FirebaseApi.userExists(idCard)) {
-        User? user = await FirebaseApi.signUp(email!, password!);
-        if (user != null) {
-          user.sendEmailVerification();
-
-          final id = user.uid;
-          String profileUrl = '';
-          if (image != null) {
-            profileUrl = await FirebaseApi.uploadProfileImage(id, image!);
+      if (policy) {
+        CustomDialog.showLoading(message: 'Registering... Please wait');
+        if (!await FirebaseApi.userExists(idCard)) {
+          User? user = await FirebaseApi.signUp(email!, password!);
+          if (user != null) {
+            user.sendEmailVerification();
+            final id = user.uid;
+            String profileUrl = '';
+            if (image != null) {
+              profileUrl = await FirebaseApi.uploadProfileImage(id, image!);
+            }
+            Users users = Users(
+              id: id,
+              name: name!,
+              email: email!,
+              phone: phone!,
+              address: address!,
+              profile: profileUrl,
+              role: 'user',
+              idCard: idCard,
+              createdAt: DateTime
+                  .now()
+                  .toUtc()
+                  .millisecondsSinceEpoch,
+              status: 'active',
+            );
+            await FirebaseApi.saveUser(id, users.toJson());
+            await FirebaseApi.signOut();
+            CustomDialog.dismiss();
+            CustomDialog.showSuccess(
+                message:
+                'Registration successful. Please check your email, ($email inbox/spam) for verification');
+            _thirdForm.currentState!.reset();
+            _firstForm.currentState!.reset();
+            _secondForm.currentState!.reset();
+            if (mounted) {
+              Provider.of<NavigationProvider>(context, listen: false)
+                  .setWelcomeIndex(0);
+              setState(() {
+                _currentIndex = 0;
+                gender = null;
+                image = null;
+              });
+            }
           }
-          Users users = Users(
-            id: id,
-            name: name!,
-            email: email!,
-            phone: phone!,
-            address: address!,
-            profile: profileUrl,
-            role: 'user',
-            idCard: idCard,
-            createdAt: DateTime.now().toUtc().millisecondsSinceEpoch,
-            status: 'active',
-          );
-          await FirebaseApi.saveUser(id, users.toJson());
-          await FirebaseApi.signOut();
+        } else {
           CustomDialog.dismiss();
-          CustomDialog.showSuccess(
-              message:
-                  'Registration successful. Please check your email ($email) for verification');
-          _thirdForm.currentState!.reset();
-          _firstForm.currentState!.reset();
-          _secondForm.currentState!.reset();
-          if (mounted) {
-            Provider.of<NavigationProvider>(context, listen: false)
-                .setWelcomeIndex(0);
-            setState(() {
-              _currentIndex = 0;
-              gender = null;
-              image = null;
-            });
-          }
+          CustomDialog.showError(
+              message: 'User with this ID card already exists');
         }
-      } else {
-        CustomDialog.dismiss();
-        CustomDialog.showError(
-            message: 'User with this ID card already exists');
+      }else{
+        CustomDialog.showError(message: 'Please agree to the terms and conditions');
       }
     }
   }

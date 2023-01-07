@@ -73,48 +73,55 @@ class CustomDialog {
     SmartDialog.show(
       maskColor: Colors.transparent,
       builder: (_) {
-        return Container(
-          padding: const EdgeInsets.all(5),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          alignment: Alignment.center,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              const CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.red,
-                child: Icon(
-                  Icons.error,
-                  size: 30,
-                  color: Colors.white,
+        return Card(
+          elevation: 5,
+          margin: const EdgeInsets.all(10),
+          child: Container(
+            height: 250,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.red,
+                  child: Icon(
+                    Icons.error,
+                    size: 30,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(color: Colors.black, fontSize: 13),
-              ),
-              Align(
-                alignment: Alignment.bottomRight,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: secondaryColor,
-                      ),
-                      child: Text(
-                        'Okay',
-                        style: GoogleFonts.nunito(color: Colors.white),
-                      ),
-                      onPressed: () => SmartDialog.dismiss(),
-                    ),
-                  ],
+                const SizedBox(height: 10),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w900),
                 ),
-              ),
-            ],
+                const Spacer(),
+                Align(
+                  alignment: Alignment.bottomRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: secondaryColor,
+                        ),
+                        child: Text(
+                          'Okay',
+                          style: GoogleFonts.nunito(color: Colors.white),
+                        ),
+                        onPressed: () => SmartDialog.dismiss(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -125,47 +132,55 @@ class CustomDialog {
     SmartDialog.show(
       maskColor: Colors.transparent,
       builder: (_) {
-        return Container(
-          padding: const EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              color: Colors.white, borderRadius: BorderRadius.circular(10)),
-          alignment: Alignment.center,
-          child: Column(
-            children: [
-              const CircleAvatar(
-                radius: 30,
-                backgroundColor: Colors.green,
-                child: Icon(
-                  Icons.check,
-                  size: 20,
-                  color: Colors.white,
+        return  Card(
+          elevation: 5,
+          margin: const EdgeInsets.all(10),
+          child: Container(
+            height: 250,
+            padding: const EdgeInsets.all(5),
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.circular(10)),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.green,
+                  child: Icon(
+                    Icons.check,
+                    size: 20,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 10),
-              Text(
-                message,
-                textAlign: TextAlign.center,
-                style: GoogleFonts.nunito(color: Colors.black, fontSize: 14),
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      style: TextButton.styleFrom(
-                        backgroundColor: secondaryColor,
-                      ),
-                      child: Text(
-                        'Okay',
-                        style: GoogleFonts.nunito(color: Colors.white),
-                      ),
-                      onPressed: () => SmartDialog.dismiss(),
-                    ),
-                  ],
+                const SizedBox(height: 10),
+                Text(
+                  message,
+                  textAlign: TextAlign.center,
+                  style: GoogleFonts.nunito(color: Colors.black, fontSize: 15, fontWeight: FontWeight.w900),
                 ),
-              ),
-            ],
+                const Spacer(),
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(
+                        style: TextButton.styleFrom(
+                          backgroundColor: secondaryColor,
+                        ),
+                        child: Text(
+                          'Okay',
+                          style: GoogleFonts.nunito(color: Colors.white),
+                        ),
+                        onPressed: () => SmartDialog.dismiss(),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

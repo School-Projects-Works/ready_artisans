@@ -65,7 +65,8 @@ class _WelcomePageState extends State<WelcomePage> {
     super.initState();
     window = WidgetsBinding.instance.window;
     window?.onMetricsChanged = () {
-      setState(() {
+      if(mounted) {
+        setState(() {
         final window = this.window;
         if (window != null) {
           _viewInsets = EdgeInsets.fromWindowPadding(
@@ -77,6 +78,7 @@ class _WelcomePageState extends State<WelcomePage> {
           )) as EdgeInsets;
         }
       });
+      }
     };
   }
 

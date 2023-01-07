@@ -3,7 +3,8 @@ import 'package:geocoding/geocoding.dart' as geo;
 import 'package:ready_artisans/Components/SmartDialog.dart';
 import 'package:location/location.dart' as loc;
 
-import '../Pages/Home/HomePage.dart';
+import '../GlobalFunctions.dart';
+
 
 class LocationService extends ChangeNotifier {
   UserLocation? _currentLocation;
@@ -57,7 +58,7 @@ class LocationService extends ChangeNotifier {
             region: place.administrativeArea,
             country: place.country,
             countryCode: place.isoCountryCode,
-            district: place.subLocality,
+            district: place.subAdministrativeArea,
           );
         }).catchError((e) {
           debugPrint(e);
@@ -69,9 +70,9 @@ class LocationService extends ChangeNotifier {
     notifyListeners();
   }
 
-  FilterValue filter=FilterValue.distance;
-  FilterValue get getFilter=>filter;
-  void setFilter(FilterValue value){
+  String filter= 'Near Me (${getAttached("Near Me")})';
+  String get getFilter=>filter;
+  void setFilter(String value){
     filter=value;
     notifyListeners();
   }
@@ -99,4 +100,16 @@ class UserLocation {
       this.district,
       required this.latitude,
       required this.longitude});
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'street': street,
+        'city': city,
+        'region': region,
+        'country': country,
+        'countryCode': countryCode,
+        'district': district,
+        'latitude': latitude,
+        'longitude': longitude,
+      };
 }

@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:ready_artisans/Components/SmartDialog.dart';
+import 'package:ready_artisans/Models/Users/Users.dart';
 
 class FirebaseApi {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -75,8 +76,9 @@ class FirebaseApi {
     return _firestore.collection('users').doc(id).update(data);
   }
 
-  static Future<DocumentSnapshot> getUser(String id) {
-    return _firestore.collection('users').doc(id).get();
+  static Future<Users?> getUser(String id) {
+    var data= _firestore.collection('users').doc(id).get();
+    return data.then((value) => Users.fromJson(value.data()!));
   }
 
   static Future<bool> userExists(String? idCard) {
@@ -86,4 +88,7 @@ class FirebaseApi {
         .get()
         .then((value) => value.docs.isNotEmpty);
   }
+
+  static  getUserStream(String uid) =>
+      _firestore.collection('users').doc(uid).snapshots();
 }
